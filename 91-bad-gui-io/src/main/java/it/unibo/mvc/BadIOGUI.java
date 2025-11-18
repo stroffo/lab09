@@ -5,6 +5,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -42,13 +44,27 @@ public class BadIOGUI {
     public BadIOGUI() {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
+
+        final JPanel centeredPanel = new JPanel();
+        centeredPanel.setLayout(new BoxLayout(centeredPanel, BoxLayout.X_AXIS));
+        
+        final JButton read = new JButton("Read from file");
         final JButton write = new JButton("Write on file");
-        canvas.add(write, BorderLayout.CENTER);
+        
+        centeredPanel.add(read);
+        centeredPanel.add(write);
+        canvas.add(centeredPanel, BorderLayout.CENTER);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
          * Handlers
          */
+        read.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("prova");
+            }
+        });
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent ignored) {
