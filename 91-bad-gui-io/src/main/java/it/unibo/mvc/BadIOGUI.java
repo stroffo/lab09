@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Random;
 
@@ -61,8 +62,14 @@ public class BadIOGUI {
          */
         read.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("prova");
+            public void actionPerformed(final ActionEvent ignored) {
+                try {
+                    List<String> lines = Files.readAllLines(Path.of(PATH));
+                    System.out.println(lines.getFirst());
+                } catch (final Exception e) {
+                    JOptionPane.showMessageDialog(frame, e, "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace(); // NOPMD: allowed as this is just an exercise
+                }
             }
         });
         write.addActionListener(new ActionListener() {
