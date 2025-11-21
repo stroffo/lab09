@@ -1,14 +1,17 @@
 package it.unibo.mvc;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  * A very simple program using a graphical interface.
@@ -23,14 +26,26 @@ public final class SimpleGUI {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
 
-        final JTextArea area = new JTextArea();
-        canvas.add(area, BorderLayout.CENTER);
+        final JTextArea textArea = new JTextArea();
+        canvas.add(textArea, BorderLayout.CENTER);
 
         final JButton saveBtn = new JButton("Save");
         canvas.add(saveBtn, BorderLayout.SOUTH);
+        
+        saveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ignored) {
+                var msg = textArea.getText();
+                try {
+                    Controller.writeToFile(msg);
+                } catch (final IOException e) {
+                    JOptionPane.showMessageDialog(frame, e, "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace(); // NOPMD
+                }
+            }
+        });
 
         frame.setContentPane(canvas);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void display() {
@@ -39,7 +54,8 @@ public final class SimpleGUI {
         final int sh = (int) screen.getHeight();
 
         frame.setSize(sw / PROPORTION, sh / PROPORTION);
-        frame.setLocationByPlatform(true);
+        frame.setLocationByPlatform(true);        
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 

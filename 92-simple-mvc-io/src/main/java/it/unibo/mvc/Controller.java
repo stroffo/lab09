@@ -9,29 +9,34 @@ import java.io.IOException;
  * Application controller. Performs the I/O.
  */
 public class Controller {
-    private File currentFile = new File(
+    private static File currentFile = new File(
         System.getProperty("user.home")
         + System.getProperty("file.separator")
         + "output.txt"
     );
 
     public void setCurrentFile(final File file) {
-        this.currentFile = file;
+        Controller.currentFile = file;
     }
 
     public File getCurrentFile() {
-        return this.currentFile;
+        return Controller.currentFile;
     }
 
     public String getFilePath() {
         return currentFile.getAbsolutePath();
     }
 
-    public void writeToFile(final String message) throws IOException {
+    public static void writeToFile(final String message) throws IOException {
         try (
             final BufferedWriter w = new BufferedWriter(new FileWriter(currentFile))
         ) {
-            w.write(message);
+            var formattedMessage = message;
+            if (!formattedMessage.endsWith("\n")) {
+                formattedMessage += "\n";
+            }
+        
+            w.write(formattedMessage);
         } catch (final IOException e) {
             throw e;
         }
