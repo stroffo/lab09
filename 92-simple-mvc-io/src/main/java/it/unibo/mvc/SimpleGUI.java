@@ -17,13 +17,14 @@ import javax.swing.JTextArea;
  * A very simple program using a graphical interface.
  * 
  */
-public final class SimpleGUI {
+public class SimpleGUI {
 
-    private static final int PROPORTION = 4;
-    private final JFrame frame = new JFrame();
+    private final static int PROPORTION = 4;
+
+    protected final JFrame frame = new JFrame();
+    protected final JPanel canvas = new JPanel();
 
     public SimpleGUI() {
-        final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
 
         final JTextArea textArea = new JTextArea();
@@ -48,12 +49,16 @@ public final class SimpleGUI {
         frame.setContentPane(canvas);
     }
 
-    private void display() {
+    protected void display() {
+        this.display(PROPORTION);
+    }
+
+    protected void display(final int proportion) {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
 
-        frame.setSize(sw / PROPORTION, sh / PROPORTION);
+        frame.setSize(sw / proportion, sh / proportion);
         frame.setLocationByPlatform(true);        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
