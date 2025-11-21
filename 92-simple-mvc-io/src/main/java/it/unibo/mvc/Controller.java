@@ -15,15 +15,15 @@ public class Controller {
         + "output.txt"
     );
 
-    public void setCurrentFile(final File file) {
+    public static void setCurrentFile(final File file) {
         Controller.currentFile = file;
     }
 
-    public File getCurrentFile() {
+    public static File getCurrentFile() {
         return Controller.currentFile;
     }
 
-    public String getFilePath() {
+    public static String getFilePath() {
         return currentFile.getAbsolutePath();
     }
 
