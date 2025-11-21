@@ -3,11 +3,10 @@ package it.unibo.mvc;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -39,9 +38,16 @@ public final class SimpleGUIWithFileChooser extends SimpleGUI {
                 final JFileChooser fileChooser = new JFileChooser(Controller.getCurrentFile());
                 var res = fileChooser.showSaveDialog(browsePanel);
 
-                if (res == JFileChooser.APPROVE_OPTION) {
-                    Controller.setCurrentFile(fileChooser.getSelectedFile());
-                    browseField.setText(Controller.getFilePath());
+                switch (res) {
+                    case JFileChooser.APPROVE_OPTION:
+                        Controller.setCurrentFile(fileChooser.getSelectedFile());
+                        browseField.setText(Controller.getFilePath());
+                        break;
+                    case JFileChooser.CANCEL_OPTION:
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(frame, "An error has occoured with " + fileChooser.getSelectedFile(), "Error", JOptionPane.ERROR_MESSAGE);
+                        break;
                 }
             }            
         });
