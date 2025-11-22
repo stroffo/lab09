@@ -19,10 +19,10 @@ import javax.swing.JTextArea;
  */
 public class SimpleGUI {
 
-    private final static int PROPORTION = 4;
+    private static final int PROPORTION = 4;
 
-    protected final JFrame frame = new JFrame();
-    protected final JPanel canvas = new JPanel();
+    private final JFrame frame = new JFrame();
+    private final JPanel canvas = new JPanel();
 
     public SimpleGUI() {
         canvas.setLayout(new BorderLayout());
@@ -32,13 +32,12 @@ public class SimpleGUI {
 
         final JButton saveBtn = new JButton("Save");
         canvas.add(saveBtn, BorderLayout.SOUTH);
-        
+
         saveBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ignored) {
-                var msg = textArea.getText();
+            public void actionPerformed(final ActionEvent ignored) {
                 try {
-                    Controller.writeToFile(msg);
+                    Controller.writeToFile(textArea.getText());
                 } catch (final IOException e) {
                     JOptionPane.showMessageDialog(frame, e, "Error", JOptionPane.ERROR_MESSAGE);
                     e.printStackTrace(); // NOPMD
@@ -47,6 +46,14 @@ public class SimpleGUI {
         });
 
         frame.setContentPane(canvas);
+    }
+
+    public JFrame getFrame() {
+        return this.frame;
+    }
+
+    public JPanel getCanvas() {
+        return this.canvas;
     }
 
     protected void display() {
@@ -59,7 +66,7 @@ public class SimpleGUI {
         final int sh = (int) screen.getHeight();
 
         frame.setSize(sw / proportion, sh / proportion);
-        frame.setLocationByPlatform(true);        
+        frame.setLocationByPlatform(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

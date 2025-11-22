@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
 /**
  * A very simple program using a graphical interface.
  * 
@@ -21,7 +20,7 @@ public final class SimpleGUIWithFileChooser extends SimpleGUI {
 
         final JPanel browsePanel = new JPanel();
         browsePanel.setLayout(new BorderLayout());
-        canvas.add(browsePanel, BorderLayout.NORTH);
+        getCanvas().add(browsePanel, BorderLayout.NORTH);
 
         final JTextField browseField = new JTextField();
         browseField.setEditable(false);
@@ -31,14 +30,13 @@ public final class SimpleGUIWithFileChooser extends SimpleGUI {
 
         final JButton browseBtn = new JButton("Browse...");
         browsePanel.add(browseBtn, BorderLayout.LINE_END);
-        
+
         browseBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ignored) {
+            public void actionPerformed(final ActionEvent ignored) {
                 final JFileChooser fileChooser = new JFileChooser(Controller.getCurrentFile());
-                var res = fileChooser.showSaveDialog(browsePanel);
 
-                switch (res) {
+                switch (fileChooser.showSaveDialog(browsePanel)) {
                     case JFileChooser.APPROVE_OPTION:
                         Controller.setCurrentFile(fileChooser.getSelectedFile());
                         browseField.setText(Controller.getFilePath());
@@ -46,15 +44,17 @@ public final class SimpleGUIWithFileChooser extends SimpleGUI {
                     case JFileChooser.CANCEL_OPTION:
                         break;
                     default:
-                        JOptionPane.showMessageDialog(frame, "An error has occoured with " + fileChooser.getSelectedFile(), "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(getFrame(), 
+                            "An error has occoured with " + fileChooser.getSelectedFile(), 
+                            "Error", JOptionPane.ERROR_MESSAGE
+                        );
                         break;
                 }
-            }            
+            }
         });
     }
 
     public static void main(final String... args) {
         new SimpleGUIWithFileChooser().display();
     }
-
 }
