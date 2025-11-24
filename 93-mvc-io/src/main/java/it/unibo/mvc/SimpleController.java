@@ -1,6 +1,8 @@
 package it.unibo.mvc;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * 
@@ -8,23 +10,39 @@ import java.util.List;
  */
 public final class SimpleController implements Controller {
 
+    private final Queue<String> queue = new LinkedList<>();
+    private final List<String> history = List.of();
+
     @Override
     public void enqueue(String str) {
+        if (str == null) {
+            throw new NullPointerException();
+        }
 
+        queue.add(str);
     }
 
     @Override
     public String dequeueAndPrint() {
-        return "";
+        if (this.peek() == null) {
+            throw new IllegalStateException();
+        }
+
+        var element = queue.remove();
+
+        System.out.println(element);
+        history.add(element);
+
+        return element;
     }
 
     @Override
     public String peek() {
-        return "";
+        return queue.peek();
     }
 
     @Override
     public List<String> getPrintHisory() {
-        return List.of();
+        return history;
     }
 }
