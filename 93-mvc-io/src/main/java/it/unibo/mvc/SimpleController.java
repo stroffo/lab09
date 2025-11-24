@@ -11,7 +11,7 @@ import java.util.Queue;
 public final class SimpleController implements Controller {
 
     private final Queue<String> queue = new LinkedList<>();
-    private final List<String> history = List.of();
+    private final List<String> history = new LinkedList<>();
 
     @Override
     public void enqueue(String str) {
